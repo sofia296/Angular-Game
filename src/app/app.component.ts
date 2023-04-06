@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Angular-Game';
 
-  cardList: any = []; //Containes all the 52 cards
+  private cardList: any = []; //Containes all the 52 cards
   suits = ['H', 'S', 'C', 'D'];
   randomCard: any; // gets just one random card
   shownCards: any = [];
@@ -33,22 +33,32 @@ export class AppComponent {
   onClick() {
     this.cards();
 
+    this.selectedCards = [];
+
+    // const numCardsToSelect = Math.min(4, this.cardList.length);
+
     while (this.selectedCards.length < 4) {
       const randomIndex = Math.floor(Math.random() * this.cardList.length);
+      // console.log('Random Card Index: ', randomIndex);
       const randomCard = this.cardList[randomIndex];
+      // console.log('Random Cards: ', randomCard);
       if (!this.selectedCards.includes(randomCard)) {
         this.selectedCards.push(randomCard);
+        // this.cardList.splice(randomIndex, 1); //To remove selected card from cardlist
       }
     }
-
     console.log('Selected Cards: ', this.selectedCards);
 
-    // this.generatedCardList.push(this.selectedCards); // List of cards already generated
-    // console.log('Generated card list: ', this.generatedCardList);
+    this.generatedCardList += this.selectedCards; // List of cards already generated
+    console.log('Generated card list: ', this.generatedCardList);
 
     const result = this.cardList.filter(
-      (value: any) => !this.selectedCards.includes(value)
+      (value: any) => !this.generatedCardList.includes(value)
     );
     console.log('Modified Card List:', result);
+
+    // if (this.generatedCardList.includes(this.selectedCards)) {
+    //   console.log('True');
+    // }
   }
 }
