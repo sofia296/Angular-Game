@@ -15,7 +15,6 @@ export class AppComponent {
   generatedCardList: any = [];
   removeRandomCard: any;
   selectedCards: any = [];
-  usedCards: any = [];
 
   cards() {
     //this function populates the cardlist
@@ -37,31 +36,19 @@ export class AppComponent {
     while (this.selectedCards.length < 4) {
       const randomIndex = Math.floor(Math.random() * this.cardList.length);
       const randomCard = this.cardList[randomIndex];
-
-      if (!this.usedCards.includes(randomCard)) {
-        continue;
+      if (!this.selectedCards.includes(randomCard)) {
+        this.selectedCards.push(randomCard);
       }
-
-      this.selectedCards.push(randomCard);
-      this.usedCards.push(randomCard);
     }
 
     console.log('Selected Cards: ', this.selectedCards);
 
-    // const randomCardIndex: any = Math.floor(
-    //   Math.random() * this.cardList.length
-    // );
-    // this.randomCard = this.cardList[randomCardIndex]; //generates random cards from cardList
-    // console.log('Random card Generated: ', this.randomCard);
-
     // this.generatedCardList.push(this.selectedCards); // List of cards already generated
     // console.log('Generated card list: ', this.generatedCardList);
 
-    // const result = this.cardList.filter(
-    //   (value: any) => !this.selectedCards.includes(value)
-    // );
-    // console.log('Modified Card List:', result);
-
-    // this.generatedCardList.filter((value: any) => {});
+    const result = this.cardList.filter(
+      (value: any) => !this.selectedCards.includes(value)
+    );
+    console.log('Modified Card List:', result);
   }
 }
