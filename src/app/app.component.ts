@@ -16,12 +16,9 @@ export class AppComponent {
   removeRandomCard: any;
   selectedCards: any = [];
 
+  //this function populates the cardlist
   cards() {
-    //this function populates the cardlist
-    if (this.cardList.length === 52) {
-      // console.log('Card List already contains 52 cards.');
-      return;
-    }
+    this.cardList = [];
     for (let i = 1; i <= 13; i++) {
       this.suits.forEach((suit) => {
         this.cardList.push(suit + '_' + i);
@@ -34,31 +31,30 @@ export class AppComponent {
     this.cards();
 
     this.selectedCards = [];
-
-    // const numCardsToSelect = Math.min(4, this.cardList.length);
+    this.selectedCards.length = 0;
 
     while (this.selectedCards.length < 4) {
       const randomIndex = Math.floor(Math.random() * this.cardList.length);
-      // console.log('Random Card Index: ', randomIndex);
       const randomCard = this.cardList[randomIndex];
-      // console.log('Random Cards: ', randomCard);
       if (!this.selectedCards.includes(randomCard)) {
         this.selectedCards.push(randomCard);
-        // this.cardList.splice(randomIndex, 1); //To remove selected card from cardlist
+        this.cardList.splice(randomIndex, 1); //To remove selected card from cardlist
       }
     }
     console.log('Selected Cards: ', this.selectedCards);
 
-    this.generatedCardList += this.selectedCards; // List of cards already generated
+    this.generatedCardList.push(this.selectedCards);
     console.log('Generated card list: ', this.generatedCardList);
 
-    const result = this.cardList.filter(
-      (value: any) => !this.generatedCardList.includes(value)
-    );
-    console.log('Modified Card List:', result);
+    this.generatedCardList.forEach((innerArr: any) => {
+      innerArr.forEach((card: any) => {
+        this.cardList = this.cardList.filter((item: any) => item !== card);
+      });
+    });
 
-    // if (this.generatedCardList.includes(this.selectedCards)) {
-    //   console.log('True');
-    // }
+    console.log('Modified Card List:', this.cardList);
+
+    if (this.cardList.length === 0) {
+    }
   }
 }
